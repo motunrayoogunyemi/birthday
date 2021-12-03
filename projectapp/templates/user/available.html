@@ -1,0 +1,86 @@
+{% extends 'user/layout.html' %}
+
+{% block content%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <p class="small" id="feedback"></p>
+                <div><input type="text" name="username" id="username"></div>
+                <button id="btn" class="btn btn-dark">check</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <h3>state and lga</h3>
+                <div>
+                    <label for="">select state</label>
+                    <select name="allstates" id="allstates" class="form-control">
+                        <option value="">select</option>
+                        {% for i in records %}
+                        <option value="{{i.id}}">{{i.state_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+        </div>
+        <div id="lgas"></div>
+    </div>
+
+</div>
+
+<script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js')}}"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+    $('#allstates').change(function(){
+        var state = $(this).val()
+        $.ajax({
+            url:"{{url_for('lga')}}",
+            data:"stateid="+state,
+            type:"GET",
+            dataType:"text",
+            success:function(m){
+                $('#lgas').html(m)
+            },
+            error:function(e){
+                console.log(e)
+            }
+        })
+    })
+
+
+
+
+
+
+    $('#btn').click(function(){
+        var username = $('#username').val()
+        //alert(username)
+        $.ajax({
+            url:"{{ url_for('available')}}",
+            data:"user="+username,
+            dataType:"json",
+            type:"POST",
+            success:function(servermsg){
+                if (servermsg.status=='failed'){
+                    $('#feedback').addClass('alert-danger alert')
+                }else{
+                    $('#feedback').addClass('alert-success alert')
+                }
+                $('#feedback').html(servermsg.msg)    //or servermsg['msg']
+                //alert(servermsg['msg'])   //msg is the object passed into the dictionary in the route
+            },
+            error:function(err){
+                console.log(err)
+            },
+            beforeSend:function(){}
+        })
+    })
+
+
+
+  
+})
+</script>
+{% endblock content %}

@@ -1,0 +1,67 @@
+{% extends 'user/layout.html' %}
+
+{% block content%}
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">Member
+      <small>Payment Page</small>
+    </h1>
+
+    <div class='alert alert-info'> You are logged in. Last Logged in Thursday 21st 2019</div>
+
+    <!-- Content Row -->
+    <div class="row">
+      <!-- Sidebar Column -->
+      <div class="col-lg-3 mb-4">
+	  <div>
+     
+	  <img src="{{ url_for('static', filename=t) }}" class='img-fluid'>
+	  <form>
+	  <input type='file' name='mypix'>
+	  </form>
+	  </div>
+        <div class="list-group">
+          <a href="index.html" class="list-group-item">Home</a>
+          <a href="" class="list-group-item">Edit Profile</a>
+          <a href="{{ url_for('gift')}}" class="list-group-item">Gift Registry</a>
+          <a href="{{ url_for('donatecash')}}" class="list-group-item">Donate cash Quick way</a>
+          <a href="{{ url_for('paycash')}}" class="list-group-item">Donate cash Legit way</a>
+          <a href="payment.html" class="list-group-item">My Payments</a>
+          <a href="shop.html" class="list-group-item">Shop</a>
+          <a href="logout.php" class="list-group-item">Logout</a>
+          <a href="logout.php" class="list-group-item">Questions</a>
+          <a href="{{ url_for('questionajax')}}" class="list-group-item">Question Ajax</a>
+          {% if iv: %}
+          {% set file='docs/' + iv.doc_filename %}
+          <a href="{{ url_for('static', filename=file)}}" class="list-group-item">Download iv</a>
+          {% endif %}
+
+         
+          
+        </div>
+      </div>
+      <!-- Content Column -->
+      <div class="col-lg-9 mb-4">
+       
+        <form action="{{ url_for('paycash')}}" method="post">
+            <div><label for="">Amount</label><input type="text" name="amount" class="form-control"></div>
+            <button class="btn btn-danger mt-2">Proceed</button>
+        </form>
+
+        
+
+      </div>
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+
+{% endblock content %}
+
+
+  

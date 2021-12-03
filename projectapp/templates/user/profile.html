@@ -1,0 +1,78 @@
+{% extends 'user/layout.html' %}
+
+{% block content%}
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">Member
+      <small>Payment Page</small>
+    </h1>
+
+    <div class='alert alert-info'> You are logged in. Last Logged in Thursday 21st 2019</div>
+
+    <!-- Content Row -->
+    <div class="row">
+      <!-- Sidebar Column -->
+      <div class="col-lg-3 mb-4">
+	  <div>
+      {% if data.guest_profile_pic != None: %}
+      {% set t = "images/guestpic"+'/'+data.guest_profile_pic %}
+      {% else %}
+      {% set t = '' %}
+      {% endif %}
+	  <img src="{{ url_for('static', filename=t) }}" class='img-fluid'>
+	  <form>
+	  <input type='file' name='mypix'>
+	  </form>
+	  </div>
+        <div class="list-group">
+          <a href="index.html" class="list-group-item">Home</a>
+          <a href="" class="list-group-item">Edit Profile</a>
+          <a href="{{ url_for('gift')}}" class="list-group-item">Gift Registry</a>
+          <a href="{{ url_for('donatecash')}}" class="list-group-item">Donate cash Quick way</a>
+          <a href="{{ url_for('paycash')}}" class="list-group-item">Donate cash Legit way</a>
+          <a href="payment.html" class="list-group-item">My Payments</a>
+          <a href="shop.html" class="list-group-item">Shop</a>
+          <a href="logout.php" class="list-group-item">Logout</a>
+          <a href="{{ url_for('questions')}}" class="list-group-item">Questions</a>
+          <a href="{{ url_for('questionajax')}}" class="list-group-item">Question Ajax</a>
+          {% if iv: %}
+          {% set file='docs/' + iv.doc_filename %}
+          <a href="{{ url_for('static', filename=file)}}" class="list-group-item">Download iv</a>
+          {% endif %}
+
+         
+          
+        </div>
+      </div>
+      <!-- Content Column -->
+      <div class="col-lg-9 mb-4">
+        <h2>Hi, {{ data.guest_fname }} {{ data.guest_lname }}</h2>
+        {% if data.guest_profile_pic != None: %}
+        {% set t = "images/guestpic"+'/'+data.guest_profile_pic %}
+        {% else %}
+        {% set t = '' %}
+        {% endif %}
+
+
+        <img src="{{ url_for('static', filename=t) }}" width="100" alt="">
+        
+
+        
+
+        {% if data.guest_profile_pic==None %}
+        <p class="alert alert-info">you should upload a profile pic <a class="alert-link" href="{{ url_for('addpicture')}}">Click here </a> </p>
+        {% endif %}
+        <p>A welcome is a kind of greeting designed to introduce a person to a new place or situation, and to make them feel at ease. The term can similarly be used to describe the feeling of being accepted on the part of the new person. In some contexts, a welcome is extended to a stranger to an area or a household..</p>
+      </div>
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+{% endblock content %}
+
+  

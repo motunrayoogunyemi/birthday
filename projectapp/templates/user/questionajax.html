@@ -1,0 +1,103 @@
+{% extends 'user/layout.html' %}
+
+{% block content%}
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">Member
+      <small>Payment Page</small>
+    </h1>
+
+    <div class='alert alert-info'> You are logged in. Last Logged in Thursday 21st 2019</div>
+
+    <!-- Content Row -->
+    <div class="row">
+      <!-- Sidebar Column -->
+      <div class="col-lg-3 mb-4">
+	  <div>
+	  <img src="{{ url_for('static', filename=t) }}" class='img-fluid'>
+	  <form>
+	  <input type='file' name='mypix'>
+	  </form>
+	  </div>
+        <div class="list-group">
+          <a href="index.html" class="list-group-item">Home</a>
+          <a href="" class="list-group-item">Edit Profile</a>
+          <a href="{{ url_for('gift')}}" class="list-group-item">Gift Registry</a>
+          <a href="payment.html" class="list-group-item">My Payments</a>
+          <a href="shop.html" class="list-group-item">Shop</a>
+          <a href="logout.php" class="list-group-item">Logout</a>
+          <a href="logout.php" class="list-group-item">Questions</a>
+          <a href="logout.php" class="list-group-item">Question Ajax</a>
+          {% if iv: %}
+          {% set file='docs/' + iv.doc_filename %}
+          <a href="{{ url_for('static', filename=file)}}" class="list-group-item">Download iv</a>
+          {% endif %}
+
+         
+          
+        </div>
+      </div>
+      <!-- Content Column -->
+      <div class="col-lg-9 mb-4">
+          <p id="feedback">here</p>
+        <h2>Ask your question</h2>
+          <div class="form-group">
+            <label for="">Firstname</label>
+            <input type="text" name="fname" id="fname">
+          </div>
+          <div class="form-group">
+            <label for="">Lastname</label>
+            <input type="text" name="lname" id="lname">
+          </div>
+            <div class="form-group">
+              <label for="">Question</label>
+              <textarea id="quest" name="quest"></textarea>
+            </div>
+            <button class="btn btn-info" id="btn">Send</button>
+      </div>
+    </div>
+    <!-- /.row -->
+
+  </div>
+
+
+
+<script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js')}}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#btn').click(function(){
+            var d = $('#quest').val()
+            var firstname = $('#fname')
+            var lastname = $('#lname')
+            var durl = "quest=" +d+ "&first=" +firstname+ "&last=" +lastname
+            // if we dont want to pick each form value one by one, we'll use .serialize, it picks all form data at once. your form elements would have to be wrapped inside a form tag
+            var data2send = $('#form').serialize()
+            alert(data2send)
+            //quest=d&first=firstname&last=lastname
+
+            $.ajax({
+                data:durl,  //'data2send' would replace durl
+                url:"{{ url_for('submitquestionajax')}}",
+                type:"POST",
+                dataType:"text",
+                error:function(error){
+                    console.log(error)
+                },
+                beforeSend:function(){
+                    $('#btn').html('Please wait...')
+                },
+                success:function(msg){
+                    $('#feedback').html(msg)
+                    $('#quest').val('')
+                    $('#feedback').addClass('text-danger')
+                    $('#btn').html('Send')
+                }
+            })
+        })
+    })
+</script>
+{% endblock content %}
